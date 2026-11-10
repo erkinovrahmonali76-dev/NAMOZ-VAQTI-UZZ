@@ -7,6 +7,15 @@ UZ_TZ = ZoneInfo("Asia/Tashkent")
 API_URL = "https://api.aladhan.com/v1/timingsByCity"
 
 async def get_prayer_times(city, region=""):
+    # Shahar va viloyat nomlarini ajratish
+    city = city.strip()
+    region = region.strip()
+
+    if "," in city and not region:
+        parts = city.split(",", 1)
+        city = parts[0].strip()
+        region = parts[1].strip()
+
     now = datetime.now(UZ_TZ)
     date = now.strftime("%d-%m-%Y")
 
