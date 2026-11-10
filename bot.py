@@ -123,7 +123,14 @@ async def main():
         raise ValueError("BOT_TOKEN topilmadi!")
 
     await init_db()
-    await dp.start_polling(bot)
+
+    reminder_task = asyncio.create_task(reminder_loop(bot))
+
+    try:
+        await dp.start_polling(bot)
+    finally:
+        reminder_task.cancel()
+        await bot.session.close()
 
 
 if __name__ == "__main__":
